@@ -1,18 +1,25 @@
 <?php
 
-class AdminController {
+class AdminController
+{
     private $db;
     private $user = null;
     private $action;
     private $data = [];
 
-    public function __construct() {
-        $this->db = Database::getInstance();
+    public function __construct()
+    {
+        try {
+            $this->db = Database::getInstance();
+        } catch (Exception $e) {
+            $this->db = null;
+        }
         $this->authenticate();
         $this->action = $_GET['page'] ?? 'dashboard';
     }
 
-    private function authenticate() {
+    private function authenticate()
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -26,9 +33,10 @@ class AdminController {
         ];
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
-        
+
         if ($method === 'POST') {
             $this->handlePost();
         } else {
@@ -36,9 +44,10 @@ class AdminController {
         }
     }
 
-    private function handleGet() {
+    private function handleGet()
+    {
         $page = $this->action;
-        
+
         switch ($page) {
             case 'dashboard':
                 $this->data = $this->getDashboardData();
@@ -69,7 +78,7 @@ class AdminController {
                 $page = 'dashboard';
                 $this->data = $this->getDashboardData();
         }
-        
+
         $this->render('admin/' . $page, [
             'page' => $page,
             'title' => $this->getPageTitle($page),
@@ -78,9 +87,10 @@ class AdminController {
         ]);
     }
 
-    private function handlePost() {
+    private function handlePost()
+    {
         $action = $_POST['action'] ?? '';
-        
+
         switch ($action) {
             case 'save_product':
                 $this->saveProduct();
@@ -98,12 +108,13 @@ class AdminController {
                 $this->saveSettings();
                 break;
         }
-        
+
         header('Location: /admin/?page=' . $this->action);
         exit;
     }
 
-    private function getDashboardData() {
+    private function getDashboardData()
+    {
         return [
             'stats' => [
                 'orders_today' => 12,
@@ -135,7 +146,8 @@ class AdminController {
         ];
     }
 
-    private function getProductsData() {
+    private function getProductsData()
+    {
         return [
             'products' => [
                 ['id' => 1, 'name' => 'Paracetamol 750mg 20 Comprimidos', 'category' => 'Medicamentos', 'price' => '14,90', 'stock' => 45, 'status' => 'active', 'sku' => 'PARC750'],
@@ -154,7 +166,8 @@ class AdminController {
         ];
     }
 
-    private function getOrdersData() {
+    private function getOrdersData()
+    {
         return [
             'orders' => [
                 ['id' => 1, 'customer' => 'Maria Silva', 'email' => 'maria@email.com', 'total' => '145,90', 'status' => 'completed', 'payment' => 'Cartão', 'date' => '29/06/2026', 'items' => 3],
@@ -173,7 +186,8 @@ class AdminController {
         ];
     }
 
-    private function getCustomersData() {
+    private function getCustomersData()
+    {
         return [
             'customers' => [
                 ['id' => 1, 'name' => 'Maria Silva', 'email' => 'maria@email.com', 'phone' => '(11) 98765-4321', 'orders' => 12, 'total_spent' => '1.890,50', 'registered' => '15/01/2026', 'status' => 'active'],
@@ -188,7 +202,8 @@ class AdminController {
         ];
     }
 
-    private function getCategoriesData() {
+    private function getCategoriesData()
+    {
         return [
             'categories' => [
                 ['id' => 1, 'name' => 'Medicamentos', 'slug' => 'medicamentos', 'products' => 124, 'order' => 1, 'status' => 'active'],
@@ -205,7 +220,8 @@ class AdminController {
         ];
     }
 
-    private function getReportsData() {
+    private function getReportsData()
+    {
         return [
             'sales_by_month' => [
                 ['month' => 'Janeiro', 'orders' => 234, 'revenue' => 12500, 'avg_order' => 53.42],
@@ -232,7 +248,8 @@ class AdminController {
         ];
     }
 
-    private function getSettingsData() {
+    private function getSettingsData()
+    {
         return [
             'store_name' => 'Farmácia Super Popular',
             'store_email' => 'contato@farmaciasuperpopular.com',
@@ -257,28 +274,34 @@ class AdminController {
         ];
     }
 
-    private function saveProduct() {
+    private function saveProduct()
+    {
         // Mock - in real implementation, save to database
         $_SESSION['admin_flash'] = ['type' => 'success', 'message' => 'Produto salvo com sucesso!'];
     }
 
-    private function deleteProduct() {
+    private function deleteProduct()
+    {
         $_SESSION['admin_flash'] = ['type' => 'success', 'message' => 'Produto excluído com sucesso!'];
     }
 
-    private function updateOrder() {
+    private function updateOrder()
+    {
         $_SESSION['admin_flash'] = ['type' => 'success', 'message' => 'Status do pedido atualizado!'];
     }
 
-    private function saveCategory() {
+    private function saveCategory()
+    {
         $_SESSION['admin_flash'] = ['type' => 'success', 'message' => 'Categoria salva com sucesso!'];
     }
 
-    private function saveSettings() {
+    private function saveSettings()
+    {
         $_SESSION['admin_flash'] = ['type' => 'success', 'message' => 'Configurações salvas com sucesso!'];
     }
 
-    private function getPageTitle($page) {
+    private function getPageTitle($page)
+    {
         $titles = [
             'dashboard' => 'Dashboard',
             'produtos' => 'Produtos',
@@ -291,17 +314,18 @@ class AdminController {
         return $titles[$page] ?? 'Dashboard';
     }
 
-    private function render($view, $data = []) {
+    private function render($view, $data = [])
+    {
         extract($data);
-        
+
         $viewFile = __DIR__ . '/../views/' . $view . '.php';
-        
+
         if (!file_exists($viewFile)) {
             http_response_code(404);
             echo '<h1>View não encontrada</h1>';
             return;
         }
-        
+
         require __DIR__ . '/../views/admin/partials/header.php';
         require $viewFile;
         require __DIR__ . '/../views/admin/partials/footer.php';

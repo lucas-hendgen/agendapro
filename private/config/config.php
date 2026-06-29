@@ -59,7 +59,11 @@ if (DEBUG) {
     error_reporting(0);
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log', LOGS_PATH . '/errors.log');
+    if (getenv('VERCEL')) {
+        ini_set('error_log', 'php://stderr');
+    } else {
+        ini_set('error_log', LOGS_PATH . '/errors.log');
+    }
 }
 
 // Autoloader
