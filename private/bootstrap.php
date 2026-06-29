@@ -7,9 +7,15 @@
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__));
 }
-define('PRIVATE_PATH', ROOT_PATH . '/private');
-define('PUBLIC_PATH', ROOT_PATH . '/public');
-define('VIEWS_PATH', PRIVATE_PATH . '/views');
+if (!defined('PRIVATE_PATH')) {
+    define('PRIVATE_PATH', ROOT_PATH . '/private');
+}
+if (!defined('PUBLIC_PATH')) {
+    define('PUBLIC_PATH', ROOT_PATH . '/public');
+}
+if (!defined('VIEWS_PATH')) {
+    define('VIEWS_PATH', PRIVATE_PATH . '/views');
+}
 
 // Config
 require_once PRIVATE_PATH . '/config/config.php';

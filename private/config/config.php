@@ -8,18 +8,42 @@ if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__, 2));
 }
 
-define('PRIVATE_PATH', ROOT_PATH . '/private');
-define('PUBLIC_PATH', ROOT_PATH . '/public');
-define('CONFIG_PATH', PRIVATE_PATH . '/config');
-define('CLASSES_PATH', PRIVATE_PATH . '/classes');
-define('MODELS_PATH', PRIVATE_PATH . '/models');
-define('CONTROLLERS_PATH', PRIVATE_PATH . '/controllers');
-define('MIDDLEWARES_PATH', PRIVATE_PATH . '/middlewares');
-define('HELPERS_PATH', PRIVATE_PATH . '/helpers');
-define('LOGS_PATH', PRIVATE_PATH . '/logs');
-define('BACKUP_PATH', PRIVATE_PATH . '/backup');
-define('STORAGE_PATH', PRIVATE_PATH . '/storage');
-define('CACHE_PATH', PRIVATE_PATH . '/cache');
+if (!defined('PRIVATE_PATH')) {
+    define('PRIVATE_PATH', ROOT_PATH . '/private');
+}
+if (!defined('PUBLIC_PATH')) {
+    define('PUBLIC_PATH', ROOT_PATH . '/public');
+}
+if (!defined('CONFIG_PATH')) {
+    define('CONFIG_PATH', PRIVATE_PATH . '/config');
+}
+if (!defined('CLASSES_PATH')) {
+    define('CLASSES_PATH', PRIVATE_PATH . '/classes');
+}
+if (!defined('MODELS_PATH')) {
+    define('MODELS_PATH', PRIVATE_PATH . '/models');
+}
+if (!defined('CONTROLLERS_PATH')) {
+    define('CONTROLLERS_PATH', PRIVATE_PATH . '/controllers');
+}
+if (!defined('MIDDLEWARES_PATH')) {
+    define('MIDDLEWARES_PATH', PRIVATE_PATH . '/middlewares');
+}
+if (!defined('HELPERS_PATH')) {
+    define('HELPERS_PATH', PRIVATE_PATH . '/helpers');
+}
+if (!defined('LOGS_PATH')) {
+    define('LOGS_PATH', PRIVATE_PATH . '/logs');
+}
+if (!defined('BACKUP_PATH')) {
+    define('BACKUP_PATH', PRIVATE_PATH . '/backup');
+}
+if (!defined('STORAGE_PATH')) {
+    define('STORAGE_PATH', PRIVATE_PATH . '/storage');
+}
+if (!defined('CACHE_PATH')) {
+    define('CACHE_PATH', PRIVATE_PATH . '/cache');
+}
 
 // Ambiente
 define('ENV', 'production');
